@@ -54,20 +54,20 @@ app= Flask(__name__)
 CORS(app, resources={r"/*":{"origins":"*"}})
 app.config.from_object('config.ProdConfig')
 
-app.register_blueprint(register_bp)
-app.register_blueprint(documentVersionManagerBlueprint)
-app.register_blueprint(userHistoryManagerBlueprint)
-app.register_blueprint(fileManagerBlueprint)
-app.register_blueprint(userLogin_bp)
-app.register_blueprint(userLogout_bp)
-app.register_blueprint(getUserProfile_bp)
-app.register_blueprint(updateUserProfile_bp)
-app.register_blueprint(deletecode_bp)
-app.register_blueprint(forgotpassword_bp)
-app.register_blueprint(changepassword_bp)
-app.register_blueprint(mail_bp)
-app.register_blueprint(razorPayBlueprint)
-app.register_blueprint(permissions_bp)
+app.register_blueprint(register_bp, url_prefix='/register')
+app.register_blueprint(documentVersionManagerBlueprint, url_prefix='/docVersionMngr')
+app.register_blueprint(userHistoryManagerBlueprint, url_prefix='/userHistMngr')
+app.register_blueprint(fileManagerBlueprint, url_prefix='\=/fileMngr')
+app.register_blueprint(userLogin_bp, url_prefix='/login')
+app.register_blueprint(userLogout_bp, url_prefix='/logout')
+app.register_blueprint(getUserProfile_bp, url_prefix='/profile')
+app.register_blueprint(updateUserProfile_bp, url_prefix='/updateProfile')
+app.register_blueprint(deletecode_bp, url_prefix='/deleteProfile')
+app.register_blueprint(forgotpassword_bp, url_prefix='/frgtpswd')
+app.register_blueprint(changepassword_bp, url_prefix='/chngpswd')
+app.register_blueprint(mail_bp, url_prefix='/sendmail')
+app.register_blueprint(razorPayBlueprint, url_prefix='/payment')
+app.register_blueprint(permissions_bp, url_prefix='/permissions')
 
 # This function get the hostname and IP deatils of server, required for microservices
 def fetchDetails():
@@ -90,6 +90,11 @@ def health():
 def details():
 	hostname, ip = fetchDetails()
 	return render_template('index.html', HOSTNAME=hostname, IP=ip)
+
+#@app.route("/register")
+#def register():
+	#return "route to register User"
+    #return render_template('register.html')
 
 if __name__ == '__main__':
 	app.run(debug=True)
